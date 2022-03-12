@@ -1,45 +1,83 @@
 import random
+from random import sample
 
 
 # ================================================================================
-#                                 Population
+#                                 Solução
 # ================================================================================
 
 def info_from_file (FILE):
-
-    # getting all the information in the file
     
     list = []
 
     with open (FILE) as file:
         for line in file:
-            list.append(line.split(" "))
-
+            int_list = [int (i) for i in line.split(" ")]
+            list.append(int_list)
+            
     return list
 
 
-def init_population (machine_qnt, job_qnt):
+def init_solution (qnt_maquina, qnt_tarefa):
+
+    solution_list = [sample (range(1, qnt_tarefa + 1), qnt_tarefa)
+                     for i in range (qnt_maquina)]
+
+    return solution_list;
+
+
+
+# ================================================================================
+#                                Função objetivo
+# ================================================================================
+
+def makespan (instancia, solucao):
     
-    # create a list of people that has num_genes
-    # where the genes is initiating randomly
- 
-    population_list = [[random.randint (1,job_qnt) for j in range (job_qnt)]
-                      for i in range (machine_qnt)]
-
-    return population_list;
-
-
-
-# ================================================================================
-#                                 Fitness
-# ================================================================================
+    nM = len(instancia)
+    tempo = [0] * nM
+    
+    for t in solucao:
+        for m in range (nM):
+            if tempo[m] < tempo[m-1] and m != 0:
+                tempo[m] = tempo[m-1] 
+            tempo[m] += instancia[m][t-1]
+            
+    return tempo[nM-1]
 
 
 
 # ================================================================================
-#                                Selection
+#                                     Seleção
 # ================================================================================
 
+def classifica (instancia, solucao):
+    
+    pior_tempo = 0
+    pior_solucao = []
+    lista_selecao = []
+
+    for i in solucao:
+        
+        t = makespan (instancia, i)
+
+        lista_selecao.append ([t,i])
+
+        if t > pior_tempo:
+            pior_solucao = i
+            pior_tempo = t
+            
+    return [lista_selecao, pior_tempo, pior_solucao]
+
+
+
+def seleciona_melhores (lista_para_selecao):
+
+    # ordena lista ordem crescente
+    lista_para_selecao = sorted (lista_para_selecao, key=lambda item: item[0])
+
+    return lista_para_selecao[:50]
+    
+    
 
 
 # ================================================================================
@@ -49,21 +87,5 @@ def init_population (machine_qnt, job_qnt):
 
 
 # ================================================================================
-#                                Mutation
+#                                 Mutação
 # ================================================================================
-
-
-# list = []
-
-    # with open (FILE) as file:
-    #     for line in file:
-    #         list.append(line.split(" "))
-    #         #[0][0] é o numero de jobs
-    #         #[0][1] é o numero de maquinas
-    #         #[0][3] é tempo maximo do maluko la
-    #         #[0][4] é o tempo minimo do maluko la
-    #     print(list[0][0])
-    #         # for x in range(1, int(lista[0][1]), 1):
-    #         #     for y in range(int(lista[0][0])):
-    #         #         print(lista[y][x])
-    # return list
