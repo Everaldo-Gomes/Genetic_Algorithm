@@ -1,11 +1,14 @@
 from func import *
-
+import time
 
 # crossover
 # mutacao
 # gerar as médias
 # pior casos
 # definir OS critérios de parada
+# contagem do tempo de execução usando a função time()
+
+tempo_inicial = time.time()
 
 
 # ================================================================================
@@ -14,7 +17,7 @@ from func import *
 
 FILE = "TXTs/tai20_5.txt"
 
-
+#print (remove_duplicados ([3, 4, 5, 9, 16, 1, 17, 14, 10, 6, 18, 13, 3, 9, 12, 16, 10, 7, 11, 1]))
 
 # ================================================================================
 #                                   Main
@@ -31,11 +34,6 @@ max_time    = int(lista[0][3])
 min_time    = int(lista[0][4])
 
 
-# inicializa e mostra população (soluções)
-
-solucao = []
-solucao = init_solution(100, qnt_tarefa)
-
 #for i in range (0, 100):
 #    print('%2s' % i, " -> ", solucao[i])
 
@@ -50,16 +48,41 @@ i = 0
 melhores_tempos = []
 piores_tempos = []
 
-while (i < 1):
+while (i < 10):
 
-    classificao = classifica (instancia, solucao)
-    melhores_50_elementos = seleciona_melhores(classificao[0])
-    melhor_tempo = melhores_50_elementos[0][0]  # só da ultima itenração
-    pior_tempo = classificao[1] # só da ultima itenração
+    # inicializa e mostra população (soluções)
 
+    solucao = []
+    solucao = init_solution(100, qnt_tarefa)
+
+    tempo_estourado = False
+    numero_execucao = False
+    melhor_tempo = 99999999
+    pior_tempo = 0
+    
+    while (not tempo_estourado and not numero_execucao):
+    
+        classificao = classifica (instancia, solucao)
+        melhores_50_elementos = seleciona_melhores(classificao[0])
+
+        if melhores_50_elementos[0][0] < melhor_tempo:
+            melhor_tempo = melhores_50_elementos[0][0]  # só da ultima iteração
+
+        if classificao[1] > pior_tempo:
+            pior_tempo = classificao[1]                 # só da ultima iteração
+
+        novas_solucoes = recombinacao (melhores_50_elementos)
+        tempo_estourado = True
+        numero_execucao = True
+        
     # salvar os tempos para fazer a média
     melhores_tempos.append (melhor_tempo)
     piores_tempos.append (pior_tempo)
 
-    
     i = i + 1
+
+print (melhores_tempos)
+print (piores_tempos)
+
+tempo_final = time.time()
+print("Tempo gasto: ", tempo_final - tempo_inicial)
