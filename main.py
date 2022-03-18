@@ -17,8 +17,6 @@ tempo_inicial = time.time()
 
 FILE = "TXTs/tai20_5.txt"
 
-#print (remove_duplicados ([3, 4, 5, 9, 16, 1, 17, 14, 10, 6, 18, 13, 3, 9, 12, 16, 10, 7, 11, 1]))
-
 # ================================================================================
 #                                   Main
 # ================================================================================
@@ -33,10 +31,8 @@ qnt_maquina = int(lista[0][1])
 max_time    = int(lista[0][3])
 min_time    = int(lista[0][4])
 
-
 #for i in range (0, 100):
 #    print('%2s' % i, " -> ", solucao[i])
-
     
 instancia = []
 for i in range(1, qnt_maquina):

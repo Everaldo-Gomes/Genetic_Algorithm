@@ -99,32 +99,32 @@ def melhores_50_elementos_sem_os_tempos (melhores_50_elementos):
     return lista
 
 
+
 def remove_duplicados (lista):
 
-    tmp = lista 
-    
-    if len(lista) != len(set(tmp)):
-        return lista
-
+    lista_repetidos = []
+    lista_repetidos_indice = []
     tamanho = len (lista)
     numero_duplicado = 0
     numero_faltante = 0
     indice = 0
 
+    # procura na lista original se existe valores repetidos, se encontrar, salva esses valores com os seus respectivos indices
+    for i in range (tamanho):   
+        for j in range (tamanho):
+            if lista[i] == lista[j] and i != j and lista[i] not in lista_repetidos:
+                lista_repetidos.append (lista[i])
+                lista_repetidos_indice.append (i)
+
+
+    # substitui os valores repetidos por valores que não estavam na lista original
+    contador_repetidos_indice = 0
+    
     for i in range (tamanho):
-
-        # verifica se o número existe na lista
-        if i + 1 not in lista:
-            numero_faltante = i + 1
-            #print (lista[k])
-            # verifia se está duplicado e retona o indice
-            for j in range (tamanho):
-                for k in range (j, tamanho):
-                    if lista[j] == lista[k]:
-                        indice = j
-            
-            lista[indice] = numero_faltante
-
+        if i not in lista:
+            lista[contador_repetidos_indice] = i
+            contador_repetidos_indice += 1
+    
     return lista
             
 
@@ -146,20 +146,11 @@ def recombinacao (melhores_50_elementos):
 
         if linha < tamanho - 1:
             linha = linha + 1
-#    print (filho)
+
+    print (filho)
     return filho
 
-
-
-#b= melhores_50_elementos[j][k+1]
-
-  #      tmp = melhores_50_elementos[i]
-   #     tmp 
-        
-
-        
-        
-    
+  
 
 
 
