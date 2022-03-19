@@ -52,12 +52,14 @@ while (i < 10):
     solucao = init_solution(100, qnt_tarefa)
 
     tempo_estourado = False
-    numero_execucao = False
     melhor_tempo = 99999999
     pior_tempo = 0
     
-    while (not tempo_estourado and not numero_execucao):
+    tempo_loop_inicial = time.time()
+    numero_execucao = 0
     
+    while (not tempo_estourado or numero_execucao < 100):
+
         classificao = classifica (instancia, solucao)
         melhores_50_elementos = seleciona_melhores(classificao[0])
 
@@ -68,8 +70,10 @@ while (i < 10):
             pior_tempo = classificao[1]                 # só da ultima iteração
 
         novas_solucoes = recombinacao (melhores_50_elementos)
-        tempo_estourado = True
-        numero_execucao = True
+        solucao = mutacao (novas_solucoes, melhores_50_elementos_sem_os_tempos (melhores_50_elementos), qnt_tarefa)
+
+        tempo_estourado = (time.time() - tempo_loop_inicial) > 2.0
+        numero_execucao += 1
         
     # salvar os tempos para fazer a média
     melhores_tempos.append (melhor_tempo)
@@ -77,8 +81,11 @@ while (i < 10):
 
     i = i + 1
 
+print ("Melhores tempos:")
 print (melhores_tempos)
+
+print ("Piores tempos:")
 print (piores_tempos)
 
 tempo_final = time.time()
-print("Tempo gasto: ", tempo_final - tempo_inicial)
+print("Total Tempo gasto: ", tempo_final - tempo_inicial)

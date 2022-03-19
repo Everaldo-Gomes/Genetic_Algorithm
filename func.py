@@ -1,6 +1,6 @@
 import random
 from random import sample
-
+from random import randint
 
 # ================================================================================
 #                                 Solução
@@ -105,9 +105,6 @@ def remove_duplicados (lista):
     lista_repetidos = []
     lista_repetidos_indice = []
     tamanho = len (lista)
-    numero_duplicado = 0
-    numero_faltante = 0
-    indice = 0
 
     # procura na lista original se existe valores repetidos, se encontrar, salva esses valores com os seus respectivos indices
     for i in range (tamanho):   
@@ -121,8 +118,8 @@ def remove_duplicados (lista):
     contador_repetidos_indice = 0
     
     for i in range (tamanho):
-        if i not in lista:
-            lista[contador_repetidos_indice] = i
+        if i + 1 not in lista:
+            lista[contador_repetidos_indice] = i + 1
             contador_repetidos_indice += 1
     
     return lista
@@ -137,23 +134,67 @@ def recombinacao (melhores_50_elementos):
     
     pais = melhores_50_elementos_sem_os_tempos (melhores_50_elementos)
     tamanho = len(pais)
+    metade = tamanho / 2
     
     for i in range (tamanho):
 
-        tmp = pais[i][:10] + pais[linha][10:20]
+        tmp = pais[i][:10] + pais[linha][10:20] 
         filho.append (remove_duplicados (tmp))
-        filho.append (pais[i])
 
         if linha < tamanho - 1:
             linha = linha + 1
 
-    print (filho)
+            
     return filho
 
-  
-
-
+    
 
 # ================================================================================
 #                                 Mutação
 # ================================================================================
+
+def mutacao (novas_solucoes, melhores_50_elementos, tamanho_linha):
+
+    vai_sofrer_mutacao = 0
+    indice_troca1 = 0
+    indice_troca2 = 0
+
+    # faz a mutação das recombinações. Com 10% de chances para cada elemento
+    
+    for i in range (len(novas_solucoes)):
+        
+        vai_sofrer_mutacao = randint(0, 10)
+
+        if vai_sofrer_mutacao == 5:
+
+            indice_troca1 = randint(0, tamanho_linha - 1)
+            indice_troca2 = randint(0, tamanho_linha - 1)
+
+            tmp = novas_solucoes[i][indice_troca1]
+            novas_solucoes[i][indice_troca1] = novas_solucoes[i][indice_troca2]
+            novas_solucoes[i][indice_troca2] = tmp
+
+            
+    # faz a mutação dos 20 melhores pais
+
+    mutacoes = []
+    
+    for i in range (50):
+
+        if i > 20: break
+        
+        vai_sofrer_mutacao = randint(0, 10)
+
+        if vai_sofrer_mutacao == 5:
+
+            indice_troca1 = randint(0, tamanho_linha - 1)
+            indice_troca2 = randint(0, tamanho_linha - 1)
+
+            mutacoes.append (melhores_50_elementos[i])
+            
+            tmp = mutacoes[-1][indice_troca1] # pega sempre o útimo
+            mutacoes[-1][indice_troca1] = mutacoes[-1][indice_troca2]
+            mutacoes[-1][indice_troca2] = tmp
+
+    
+    return novas_solucoes + mutacoes + melhores_50_elementos[:(50 - len(mutacoes))]
