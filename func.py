@@ -134,11 +134,10 @@ def recombinacao (melhores_50_elementos):
     
     pais = melhores_50_elementos_sem_os_tempos (melhores_50_elementos)
     tamanho = len(pais)
-    metade = tamanho / 2
     
     for i in range (tamanho):
 
-        tmp = pais[i][:10] + pais[linha][10:20] 
+        tmp = pais[i][:(int(len (pais[0])/2))] + pais[linha][(int(len (pais[0])/2)):len (pais[0])] 
         filho.append (remove_duplicados (tmp))
 
         if linha < tamanho - 1:
