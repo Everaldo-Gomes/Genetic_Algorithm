@@ -82,7 +82,7 @@ for arquivo in FILE:
             tempo_estourado = (time.time() - tempo_loop_inicial) > 10.0
             numero_execucao += 1
 
-            # Critério de parada 2.
+            # Critério de parada 2. se o nosso resultado for menor que 10% do resultado do carinha.
             if melhor_tempo < (min_time * 0.9):
                 break
             
@@ -92,14 +92,15 @@ for arquivo in FILE:
         piores_tempos.append (pior_tempo)
     
         i = i + 1
-        
-    print ("Arquivo:                  ", arquivo.split("/")[1])
-    print ("Lower bound:              ", min(melhores_tempos))
-    print ("Upper bound:              ", max(piores_tempos))
-    print ("Média LB:                 ", round(sum(melhores_tempos) / len(melhores_tempos), 4))
-    print ("Desvio Padrao LB:         ", round(np.std(melhores_tempos), 4))
-    print ("Media Tempo:              ", round(sum(tempo_execucao) / len(tempo_execucao), 4))
-    print ("Desvio Padrao Tempo exec: ", round(np.std(tempo_execucao), 2))
-    print ("Total Tempo gasto:        ", round(time.time() - tempo_inicial, 4))
-    print ("Lower bound  do carinha:  ", min_time)
-    print ("--------------------------------------------------------------------------------\n")   
+
+    print ("---------------------------------------------------------------")   
+    print ("Arquivo: ", arquivo.split("/")[1], "\t\t  Lower bound: ", min_time)
+    print ("---------------------------------------------------------------")
+    print ("Lower bound:                    ", min(melhores_tempos))
+    print ("Upper bound:                    ", max(piores_tempos))
+    print ("Média do lower bound:           ", round(sum(melhores_tempos) / len(melhores_tempos), 4))
+    print ("Desvio Padrao do lower bound:   ", round(np.std(melhores_tempos), 4))
+    print ("Media Tempo:                    ", round(sum(tempo_execucao) / len(tempo_execucao), 4))
+    print ("Desvio Padrao Tempo exec:       ", round(np.std(tempo_execucao), 2))
+    print ("Total Tempo:                    ", round(time.time() - tempo_inicial, 4))
+    print ("---------------------------------------------------------------\n")   
