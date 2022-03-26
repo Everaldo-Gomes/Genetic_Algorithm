@@ -50,6 +50,7 @@ for arquivo in FILE:
     tempo_execucao = []
     melhores_tempos = []
     piores_tempos = []
+    tempo_loop_inicial = time.time()
     
     while (i < 10):
     
@@ -61,30 +62,25 @@ for arquivo in FILE:
         tempo_estourado = False
         melhor_tempo = 99999999
         pior_tempo = 0
-        
-        tempo_loop_inicial = time.time()
         numero_execucao = 0
         
-        while (not tempo_estourado): # Critério de parada 1.     numero_execucao < 300
+        while (not tempo_estourado): # Critério de parada 1.  
         
             classificao = classifica (instancia, solucao)
-            melhores_50_elementos = seleciona_melhores(classificao[0])
+            melhores_50_elementos = seleciona_melhores(classificao)
     
             if melhores_50_elementos[0][0] < melhor_tempo:
                 melhor_tempo = melhores_50_elementos[0][0]  # só da ultima iteração
     
-            if classificao[1] > pior_tempo:
-                pior_tempo = classificao[1]                 # só da ultima iteração
-    
             novas_solucoes = recombinacao (melhores_50_elementos)
             solucao = mutacao (novas_solucoes, melhores_50_elementos_sem_os_tempos (melhores_50_elementos), qnt_tarefa)
     
-            tempo_estourado = (time.time() - tempo_loop_inicial) > 10.0
+            tempo_estourado = (time.time() - tempo_loop_inicial) > 60.0
             numero_execucao += 1
 
             # Critério de parada 2. se o nosso resultado for menor que 10% do resultado do carinha.
             if melhor_tempo < (min_time * 0.9):
-                break
+               break
             
         # salvar os tempos para fazer a média
         tempo_execucao.append (time.time() - tempo_loop_inicial)
@@ -93,14 +89,14 @@ for arquivo in FILE:
     
         i = i + 1
 
-    print ("---------------------------------------------------------------")   
+    print ("----------------------------------------------------------")   
     print ("Arquivo: ", arquivo.split("/")[1], "\t\t  Lower bound: ", min_time)
-    print ("---------------------------------------------------------------")
+    print ("----------------------------------------------------------")
     print ("Lower bound:                    ", min(melhores_tempos))
-    print ("Upper bound:                    ", max(piores_tempos))
+    print ("Upper bound:                    ", max(melhores_tempos))
     print ("Média do lower bound:           ", round(sum(melhores_tempos) / len(melhores_tempos), 4))
     print ("Desvio Padrao do lower bound:   ", round(np.std(melhores_tempos), 4))
     print ("Media Tempo:                    ", round(sum(tempo_execucao) / len(tempo_execucao), 4))
-    print ("Desvio Padrao Tempo exec:       ", round(np.std(tempo_execucao), 2))
-    print ("Total Tempo:                    ", round(time.time() - tempo_inicial, 4))
-    print ("---------------------------------------------------------------\n")   
+    print ("Desvio Padrao Tempo execucao:   ", round(np.std(tempo_execucao), 2))
+    print ("Tempo total execucao:           ", round(time.time() - tempo_loop_inicial, 4))
+    print ("----------------------------------------------------------\n")   

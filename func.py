@@ -54,21 +54,14 @@ def classifica (instancia, solucao):
 
     # retorna toda a população (solução) com os tempos
     
-    pior_tempo = 0
-    pior_solucao = []
     lista_selecao = []
 
     for i in solucao:
         
         t = makespan (instancia, i)
-
         lista_selecao.append ([t,i])
-
-        if t > pior_tempo:
-            pior_solucao = i
-            pior_tempo = t
-            
-    return [lista_selecao, pior_tempo, pior_solucao]
+        
+    return lista_selecao
 
 
 
@@ -180,20 +173,19 @@ def mutacao (novas_solucoes, melhores_50_elementos, tamanho_linha):
     
     for i in range (50):
 
-        if i > 20: break
+        if i > 30: break
         
         vai_sofrer_mutacao = randint(0, 10)
 
-        if vai_sofrer_mutacao == 5:
+        #if vai_sofrer_mutacao == 5:
+        indice_troca1 = randint(0, tamanho_linha - 1)
+        indice_troca2 = randint(0, tamanho_linha - 1)
 
-            indice_troca1 = randint(0, tamanho_linha - 1)
-            indice_troca2 = randint(0, tamanho_linha - 1)
-
-            mutacoes.append (melhores_50_elementos[i])
+        mutacoes.append (melhores_50_elementos[i])
             
-            tmp = mutacoes[-1][indice_troca1] # pega sempre o útimo
-            mutacoes[-1][indice_troca1] = mutacoes[-1][indice_troca2]
-            mutacoes[-1][indice_troca2] = tmp
+        tmp = mutacoes[-1][indice_troca1] # pega sempre o útimo
+        mutacoes[-1][indice_troca1] = mutacoes[-1][indice_troca2]
+        mutacoes[-1][indice_troca2] = tmp
 
     
-    return novas_solucoes + mutacoes + melhores_50_elementos[:(50 - len(mutacoes))]
+    return novas_solucoes + melhores_50_elementos[:(50 - len(mutacoes))]
