@@ -21,9 +21,9 @@ def info_from_file (FILE):
 def init_solution (qnt_maquina, qnt_tarefa):
 
     solution_list = [sample (range(1, qnt_tarefa + 1), qnt_tarefa)
-                     for i in range (qnt_maquina)]
+                     for i in range (qnt_maquina)];
 
-    return solution_list;
+    return solution_list
 
 
 
@@ -177,7 +177,6 @@ def mutacao (novas_solucoes, melhores_50_elementos, tamanho_linha):
         
         vai_sofrer_mutacao = randint(0, 10)
 
-        #if vai_sofrer_mutacao == 5:
         indice_troca1 = randint(0, tamanho_linha - 1)
         indice_troca2 = randint(0, tamanho_linha - 1)
 
